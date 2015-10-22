@@ -5,8 +5,8 @@ module.exports = (robot) ->
 
   robot.respond /veggie/i, (res) =>
     @yummly.giveMeARecipe(true).then (recipe) ->
-      res.reply "COOK THIS!!! #{recipe.recipeName} \n http://www.yummly.com/recipe/#{recipe.id} \n #{recipe.smallImageUrls[0]}"
+      res.reply "Here's an idea: \n *#{recipe.recipeName}* \n http://www.yummly.com/recipe/#{recipe.id} \n #{recipe.smallImageUrls[0]}"
 
   robot.respond /non-veggie/i, (res) =>
     @yummly.giveMeARecipe(false).then (recipe) ->
-      res.reply "COOK THIS!!! #{recipe.recipeName} \n http://www.yummly.com/recipe/#{recipe.id} \n #{recipe.smallImageUrls[0]}"
+      res.reply "Here's an idea: \n *#{recipe.recipeName}* \n http://www.yummly.com/recipe/#{recipe.id} \n #{recipe.smallImageUrls[0]}"
