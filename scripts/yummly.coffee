@@ -1,19 +1,11 @@
 rp = require('request-promise')
 Deferred = require('promise.coffee').Deferred
 
-recipeIndexArr = (num) ->
-  recipeIndexes = []
-  for x in [0...num] by 1
-    recipeIndexes.push(x)
-  recipeIndexes
-
 randomStartingPoint =  ->
   Math.floor(Math.random() * 5000)
 
 class Yummly
   constructor: (@robot) ->
-    @counter = 1
-    @recipeIndexes = recipeIndexArr(90)
     @recipes = []
     @isVegetarian = false
 
@@ -27,7 +19,7 @@ class Yummly
      if @isVegetarian == true
        "#{apiString}#{mainDishes}#{salads}#{vegetarian}#{startPoint}"
      else
-       "#{apiString}#{mainDishes}#{salads}#{startPoint}"
+       "#{apiString}#{mainDishes}#{startPoint}"
 
   getRecipes: () ->
     yummlyUrl = @buildUrl(@isVegetarian)
@@ -40,22 +32,15 @@ class Yummly
 
     if @recipes.length == 0 or @isVegetarian != isVegetarian
       @isVegetarian = isVegetarian
-      @counter = 1
-      @getRecipes(isVegetarian).then () =>
-        deferred.resolve(@singleRecipe())
-
-    else if @counter is 88
-      @counter = 1
-      @recipeIndexes = recipeIndexArr(90)
-      @getRecipes(isVegetarian).then () =>
+      @getRecipes().then () =>
         deferred.resolve(@singleRecipe())
     else
-      @counter += 1
       deferred.resolve(@singleRecipe())
 
     deferred.promise
 
   singleRecipe: ->
-    @recipes[@recipeIndexes.splice(Math.random()*@recipeIndexes.length, 1)[0]]
+    randomIndex = Math.floor(Math.random() * (@recipes.length))
+    @recipes.splice(randomIndex, 1)[0]
 
 module.exports = Yummly
