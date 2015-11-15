@@ -24,3 +24,14 @@ module.exports = (robot) ->
       res.reply "you're gonna get water notifications now"
     else
       res.reply "you've already signed up to get dem water notifications"
+
+  # unsubscribe
+  robot.respond /water unsubscribe/i, (res) ->
+    users = robot.brain.get('waterNotificationUsers')
+
+    if users[res.envelope.user.name]
+      delete users[res.envelope.user.name]
+      robot.brain.set('waterNotificationUsers', users)
+      res.reply "You're gonna stop getting water notifications. Don't dry out.."
+    else
+      res.reply "You can't unsubscribe, you haven't even signed up yet!"
