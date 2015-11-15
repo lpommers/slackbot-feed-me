@@ -15,7 +15,7 @@ module.exports = (robot) ->
   new cronJob('00 30 10-15 * * 1-5', haveSomeWater(robot), null, true, timeZone)
 
   # sign up
-  robot.respond /water notification/i, (res) ->
+  robot.respond /water notifications subscribe/i, (res) ->
     users = robot.brain.get('waterNotificationUsers')
 
     if not users[res.envelope.user.name]
@@ -26,7 +26,7 @@ module.exports = (robot) ->
       res.reply "you've already signed up to get dem water notifications"
 
   # unsubscribe
-  robot.respond /water unsubscribe/i, (res) ->
+  robot.respond /water notifications unsubscribe/i, (res) ->
     users = robot.brain.get('waterNotificationUsers')
 
     if users[res.envelope.user.name]
